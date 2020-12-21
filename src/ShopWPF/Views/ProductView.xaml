@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="ShopWPF.Views.ProductView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="730">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <DataGrid ItemsSource="{Binding Products}"
+
+                  SelectedItem="{Binding SelectedProduct}"
+                  AutoGenerateColumns="False"
+                  Grid.Row="0"
+                  Grid.ColumnSpan="4"
+                  ColumnWidth="*"
+                  FontSize="14"
+                  Background="Lavender">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow" />
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Product Number"
+
+                                    Binding="{Binding ProductNumber}" />
+                <DataGridTextColumn Header="Name"
+
+                                    Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Price"
+
+                                    Binding="{Binding Price}" />
+                <DataGridTextColumn Header="Count"
+
+                                    Binding="{Binding Count}" />
+                <DataGridTemplateColumn Header="Order">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox
+                                ItemsSource="{Binding Path=DataContext.Orders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                SelectedValue="{Binding OrderId, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                SelectedValuePath="Id"
+                                DisplayMemberPath="OrderNumber" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Add"
+
+                Grid.Row="1"
+                Grid.Column="0"
+                Command="{Binding AddProductCommand}" />
+        <Button Content="Delete"
+
+                Grid.Row="1"
+                Grid.Column="1"
+                Command="{Binding DeleteProductCommand}" />
+        <Button Content="Save"
+
+                Grid.Row="1"
+                Grid.Column="2"
+                Command="{Binding SaveProductsCommand}" />
+        <Button Content="Refresh"
+
+                Grid.Row="1"
+                Grid.Column="3"
+                Command="{Binding RefreshProductsCommand}" />
+    </Grid>
+</UserControl>
